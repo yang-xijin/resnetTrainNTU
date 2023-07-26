@@ -28,7 +28,6 @@ if __name__ == '__main__':
     # 			 MyData(train_dir, '3') + MyData(train_dir, '4') + MyData(train_dir, '5')
     # val_data = MyData(val_dir, '0') + MyData(val_dir, '1') + MyData(val_dir, '2') +\
     # 			 MyData(val_dir, '3') + MyData(val_dir, '4') + MyData(val_dir, '5')
-    # 分割数据集
 
     train_data_size = len(train_data)
     val_data_size = len(val_data)

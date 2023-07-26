@@ -2,7 +2,7 @@ import os
 import numpy as np
 from skimage.transform import resize
 from torch.utils.data import Dataset
-from tools.trans import seq_translation
+from tool.trans import seq_translation
 
 
 #               1  2 3 4 5  6 7  8 9  10 11 12 13 14 15 16
