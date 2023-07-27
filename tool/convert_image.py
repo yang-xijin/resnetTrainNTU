@@ -119,6 +119,7 @@ def seq_translation(data):
     return data
 
 
+# 三通道图
 def convert_img():
     labels = [0, 1, 2, 3, 4, 5]
     root_dir = "D:/postgraduate/action-recognition/dataset/NTU_dataset_mini/"
@@ -136,23 +137,28 @@ def convert_img():
             print("{}/{}".format(num, data_num))
             # preprocess
             body_data = seq_translation(body_data)
-            max_val = body_data.max()
-            min_val = -body_data.min()
+            max_val = 5.18858098984
+            min_val = -5.28981208801
             input_x = 255 * (body_data - min_val) / (max_val - min_val)
             rgb_ske = np.reshape(input_x, (input_x.shape[0], input_x.shape[1] // 3, 3))
-            rgb_ske = resize(rgb_ske, output_shape=(224, 224)).astype(np.float32)
-            rgb_ske = np.transpose(rgb_ske, [1, 0, 2]).astype(np.uint8)
+            rgb_ske = np.resize(rgb_ske, (224, 224, 3)).astype(np.float32)
+            rgb_ske = np.transpose(rgb_ske, [1, 0, 2])
+            rgb_ske = np.add(rgb_ske, 0.5)      # 四舍五入
+            rgb_ske = rgb_ske.astype(np.uint8)
             imgname = str(num) + 'A' + str(label) + ".bmp"
             imgpath = os.path.join(save_dir, imgname)
-            imageio.imsave(imgpath, rgb_ske)
+            img = Image.fromarray(rgb_ske)
+            img.save(imgpath)
+
+            print(img)
 
 
 def conv_img(file, save_dir):
     body_data = read_skeleton(file)  # 获取一个样本数据存在二维数组中
     # preprocess
     body_data = seq_translation(body_data)
-    max_val = 2
-    min_val = -2
+    max_val = 5.18858098984
+    min_val = -5.28981208801
     input_x = 255 * (body_data - min_val) / (max_val - min_val)
     rgb_ske = np.reshape(input_x, (input_x.shape[0], input_x.shape[1] // 3, 3))
     rgb_ske = resize(rgb_ske, output_shape=(224, 224)).astype(np.float32)
@@ -166,8 +172,8 @@ def conv_tensor(file):
     body_data = read_skeleton(file)  # 获取一个样本数据存在二维数组中
     # preprocess
     body_data = seq_translation(body_data)
-    max_val = body_data.max()
-    min_val = body_data.min()
+    max_val = 5.18858098984
+    min_val = -5.28981208801
     input_x = 255 * (body_data - min_val) / (max_val - min_val)
     # rgb_ske = np.reshape(input_x, (input_x.shape[0], input_x.shape[1] // 3, 3))
     rgb_ske = resize(input_x, output_shape=(224, 224)).astype(np.int8)
@@ -176,7 +182,7 @@ def conv_tensor(file):
     np.savetxt("./23.txt", rgb_ske)
 
 
-# conv_jpg
+# conv_jpg灰度图
 def conv_jpg():
     labels = [0, 1, 2, 3, 4, 5]
     root_dir = "D:/postgraduate/action-recognition/dataset/NTU_dataset_mini/"
@@ -209,5 +215,5 @@ def conv_jpg():
 if __name__ == "__main__":
     # file = "D:/postgraduate/action-recognition/dataset/NTU_dataset_mini/2/S001C001P002R001A009.skeleton"
     # conv_tensor(file)
-    conv_jpg()
+    convert_img()
 

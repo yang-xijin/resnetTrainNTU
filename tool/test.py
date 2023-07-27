@@ -1,6 +1,7 @@
 import os
 import shutil
 import random
+import numpy as np
 
 
 def move_file(src_folder, to_folder, ratio):
@@ -50,10 +51,10 @@ def delete_error_data(folder):
 
 
 if __name__ == '__main__':
-	src_folder = "D:/HAR/dataset/NTU_dataset_mini/split/val/"
-	for i in range(6):
-		folder = os.path.join(src_folder, str(i))
-		delete_error_data(folder)
+	a = np.array([[11,12,13,14,15,16],[21,22,23,24,25,26],[31,32,33,34,35,36]])
+	b = np.reshape(a, (a.shape[0], a.shape[1] // 3, 3))
+	c = b.resize((4,4))
+	print(a)
 
 
 

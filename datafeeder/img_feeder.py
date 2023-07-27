@@ -1,9 +1,6 @@
 import os
 import numpy as np
-import torchvision
-from skimage.transform import resize
 from torch.utils.data import Dataset
-from tools.trans import seq_translation
 from PIL import Image
 
 
@@ -18,10 +15,12 @@ class MyData(Dataset):
 	def __getitem__(self, idx):
 		data_file = self.data_name_list[idx]
 		img_path = os.path.join(self.root_dir, data_file)
-		img = Image.open(img_path)
-		img_tensor = torchvision.transforms.ToTensor()(img)
+		f = Image.open(img_path)
+		img = f.convert('RGB')
+		img_array = np.asarray(img, dtype=np.float32)
+		img_array = np.transpose(img_array, [2, 0, 1])
 		label = int(data_file[(data_file.find('A')+1)])
-		return img_tensor, label
+		return img_array, label
 
 	def __len__(self):
 		return len(self.data_name_list)
