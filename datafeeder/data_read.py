@@ -21,8 +21,8 @@ class MyData(Dataset):
         body_data = read_skeleton(datafile_path)            # 获取一个样本数据存在二维数组中
         # preprocess
         body_data = seq_translation(body_data)
-        max_val = 5.18858098984
-        min_val = -5.28981208801
+        max_val = 4.718282222747803
+        min_val = -1.6540675908327103
         input_x = 255 * (body_data - min_val) / (max_val - min_val)
         rgb_ske = np.reshape(input_x, (input_x.shape[0], input_x.shape[1] // 3, 3))
         rgb_ske = resize(rgb_ske, output_shape=(224, 224)).astype(np.uint8)

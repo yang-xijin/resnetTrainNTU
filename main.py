@@ -1,11 +1,11 @@
 import numpy as np
-from torchvision.transforms import transforms
 
 from model.resnet50 import *
-from datafeeder.img_feeder import MyData
+from datafeeder.data_read import MyData
 from torch.utils.data import DataLoader
 import os
 from tool.train import train_val, plot_loss, plot_acc
+from torchvision import transforms
 
 os.environ['CUDA_LAUNCH_BLOCKING'] = "1"
 
@@ -23,19 +23,14 @@ if __name__ == '__main__':
     epoch = 100  # 训练轮数
     val_accuracy_all = 0
     # 数据集准备
-    train_dir = "D:/postgraduate/action-recognition/dataset/NTU_dataset_mini/images/train"
-    val_dir = "D:/postgraduate/action-recognition/dataset/NTU_dataset_mini/images/val"
-    train_data = MyData(train_dir,
-                        transform=transforms.Compose([transforms.ToTensor(),
-                                                      transforms.Normalize(
-                                                          mean=[0.5049725, 0.46190482, 0.5082291],
-                                                          std=[0.014596962, 0.040307738, 0.01857705])]))
-    val_data = MyData(val_dir,
-                      transform=transforms.Compose([transforms.ToTensor(),
-                                                    transforms.Normalize(
-                                                        mean=[0.5049725, 0.46190482, 0.5082291],
-                                                        std=[0.014596962, 0.040307738, 0.01857705])])
-                      )
+    # train_dir = "D:/postgraduate/action-recognition/dataset/NTU_dataset_mini/images/train"
+    # val_dir = "D:/postgraduate/action-recognition/dataset/NTU_dataset_mini/images/val"
+    # train_data = MyData(train_dir, transform=transforms.ToTensor())
+    train_dir = "D:/postgraduate/action-recognition/dataset/NTU_dataset_mini/split/train"
+    val_dir = "D:/postgraduate/action-recognition/dataset/NTU_dataset_mini/split/val"
+    train_data = MyData(train_dir, '0')+MyData(train_dir, '1')+MyData(train_dir, '2')+MyData(train_dir, '3')+MyData(train_dir, '4')+MyData(train_dir, '5')
+    val_data = MyData(val_dir, '0')+MyData(val_dir, '1')+MyData(val_dir, '2')+MyData(val_dir, '3')+MyData(val_dir, '4')+MyData(val_dir, '5')
+
     # 训练集大小
     train_data_size = len(train_data)
     # 测试集大小
